@@ -8,11 +8,19 @@ from foodPrice.food_price import FoodPricePredictor
 from fastapi import Form
 from typing import List
 from pydantic import BaseModel
-
-
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],  
+    allow_headers=["*"],  
+)
+
 
 class InputData(BaseModel):
     input_values: List[float]
@@ -24,7 +32,7 @@ food_price_predictor = FoodPricePredictor("C:/project/backend/foodPrice/model.jb
 
 os.makedirs("temp", exist_ok=True)
 
-@app.post("/analyze_image/")
+@app.post("/analyze_image")
 async def analyze_image(image: UploadFile = File(...)):
     """Detects pest/disease from the image, fetches weather data, and returns prevention measures."""
     image_path = f"temp/{image.filename}"
