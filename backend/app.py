@@ -10,6 +10,7 @@ from typing import List
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+from fertilizerRecommender.fertilizer import FertilizerRecommender
 
 app = FastAPI()
 
@@ -21,15 +22,16 @@ app.add_middleware(
     allow_headers=["*"],  
 )
 
-
 class InputData(BaseModel):
     input_values: List[float]
 
-pest_detector = PestDetectionModel("pestDetection/resnet_finetuned.pth")
+base_dir = os.path.dirname(os.path.abspath(__file__))  
+
+pest_detector = PestDetectionModel(os.path.join(base_dir, "pestDetection/resnet_finetuned.pth"))
 disease_prevention = DiseasePrevention()
 weather_fetcher = WeatherFetcher()
-food_price_predictor = FoodPricePredictor("foodPrice/model.jbl.lzma")
-
+food_price_predictor = FoodPricePredictor(os.path.join(base_dir,"foodPrice/model.jbl.lzma"))
+fertilizer = FertilizerRecommender()
 os.makedirs("temp", exist_ok=True)
 
 @app.post("/analyze_image")
@@ -64,5 +66,26 @@ def predict_price(data: InputData):  # Accept form input properly
         error_details = traceback.format_exc()
         raise HTTPException(status_code=500, detail=f"Error: {str(e)}\nTraceback: {error_details}")
 
+class FertilizerInput(BaseModel):
+    crop_type: str
+    soil_type: str
+
+@app.post("/fertilizer_recommend")
+def predict_fertilizer(data: FertilizerInput):
+    """Recommends the best fertilizer based on crop type, soil type, and hardcoded temperature/humidity values."""
+    try:
+        input_data = {
+            "Temparature": 30,  
+            "Humidity": 40,      
+            "Moisture": 35,     
+            "Soil Type": data.soil_type,
+            "Crop Type": data.crop_type,
+        }
+
+        recommended_fertilizer = fertilizer.predict(input_data)
+        return {"recommended_fertilizer": recommended_fertilizer}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
