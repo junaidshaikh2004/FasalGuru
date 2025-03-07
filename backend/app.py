@@ -8,7 +8,7 @@ from foodPrice.food_price import FoodPricePredictor
 from fastapi import Form
 from typing import List
 from pydantic import BaseModel
-
+from fastapi.middleware.cors import CORSMiddleware
 
 import uvicorn
 
@@ -17,7 +17,16 @@ app = FastAPI()
 class InputData(BaseModel):
     input_values: List[float]
 
-pest_detector = PestDetectionModel("pestDetection/resnet_finetuned.pth", "C:/project/data/train")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],  
+    allow_headers=["*"],  
+)
+
+
+pest_detector = PestDetectionModel("pestDetectvdion/resnet_finetuned.pth", "C:/project/data/train")
 disease_prevention = DiseasePrevention()
 weather_fetcher = WeatherFetcher()
 food_price_predictor = FoodPricePredictor("C:/project/backend/foodPrice/model.jbl.lzma")
