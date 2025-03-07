@@ -25,10 +25,10 @@ app.add_middleware(
 class InputData(BaseModel):
     input_values: List[float]
 
-pest_detector = PestDetectionModel("pestDetection/resnet_finetuned.pth", "C:/project/data/train")
+pest_detector = PestDetectionModel("pestDetection/resnet_finetuned.pth")
 disease_prevention = DiseasePrevention()
 weather_fetcher = WeatherFetcher()
-food_price_predictor = FoodPricePredictor("C:/project/backend/foodPrice/model.jbl.lzma")
+food_price_predictor = FoodPricePredictor("foodPrice/model.jbl.lzma")
 
 os.makedirs("temp", exist_ok=True)
 
