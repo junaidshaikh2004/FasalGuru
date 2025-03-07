@@ -17,7 +17,7 @@ function Features() {
       <div className="mt-4 flex justify-between w-50 h-10 items-center rounded-2xl px-3 bg-green-600">
       <button className='text-start  text-xl font-bold text-white ' >Use Now</button>
       <div className='w-8 h-8  text-white '>
-      <IoIosArrowDropright className='w-[100%] h-[100%] color-whiy ' />
+      <IoIosArrowDropright className='git branchw-[100%] h-[100%] color-whiy ' />
       </div>
       </div>
       </div>
