@@ -132,12 +132,13 @@ function PestDetection() {
             </div>
 
             {/* Right Section */}
-            <div className='w-[50vw] h-[70vh]'>
+            <div className='w-[50vw] h-[70vh] '>
                 <div className="justify-center items-center">
                     <div className="text-7xl mx-2 text-neutral-600 dark:text-black font-bold">
                         Pest
                         <FlipWords words={words} /> <br />
                     </div>
+                    <div className='mx-3 h-[2px] w-[34vw] bg-slate-500 mt-2 ' ></div>
                 </div>
 
                 <div className='p-4 mt-3'>

@@ -36,7 +36,7 @@ function Features() {
   return (
     <div className="feature">
       <div className="flex items-center justify-center gap-2">
-        <h1 className="text-center text-2xl font-bold">
+        <h1 className="text-center text-4xl font-bold">
           Enhance Your Crop Health with These Powerful Features{" "}
         </h1>
         <img
