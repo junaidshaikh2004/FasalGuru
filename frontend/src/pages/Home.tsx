@@ -5,6 +5,7 @@ import '../styles/dashboard.css'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { PinContainer } from "../components/ui/3d-pin";
 
 // Fix default marker icon issue with Leaflet (in React projects)
 import markerIconPng from 'leaflet/dist/images/marker-icon.png';
@@ -71,6 +72,27 @@ function Home() {
         }
     }, [latitude, longitude]);
 
+    useEffect(() => {
+      if (forecast) {
+          const temperature = forecast?.main?.temp;
+          const humidity = forecast?.main?.humidity;
+          const weatherMain = forecast?.weather?.[0]?.main;
+
+          // Immediately send to backend
+          axios.post('http://127.0.0.1:8000/analyze_image', {
+              temperature,
+              humidity,
+              weather_main: weatherMain,
+          })
+          .then(response => {
+              console.log('Weather data sent to backend:', response.data);
+          })
+          .catch(error => {
+              console.error('Error sending weather data:', error);
+          });
+      }
+  }, [forecast]);
+
     const mainWeather = forecast?.weather?.[0]?.main ?? 'N/A';
     const description = forecast?.weather?.[0]?.description ?? 'N/A';
     const tempreature = forecast?.main?.temp
@@ -94,7 +116,6 @@ function Home() {
         </div>
         <div id="cards" className=' w-[100%] h-65 mt-10 ml-15 flex gap-6' >
           <div className="card" >
-  
                                 <img
                                     src="src/assets/weather.jpg"
                                     alt="Weather Icon"
@@ -104,8 +125,10 @@ function Home() {
             <div className="cardInfo ">
                                 <p className="font-bold text-2xl">Weather: {mainWeather}</p>
                                 <p className="text-xl text-gray-500 mt-2 ">Description: {description}</p>
+                                
                             </div>
           </div>
+          
           <div className="card">
             <img src="src/assets/temp.jpg" alt="" className='w-30 h-30 border-1 mt-3 rounded-full'/>
             <div className="cardInfo">
