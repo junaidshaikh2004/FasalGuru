@@ -9,8 +9,8 @@
     /* height: ; */
     background-color:white;
     /* border-width : 1px; */
-    border-bottom-left-radius :25px ;
-    border-bottom-right-radius :25px ;
+    border-radius :25px ;
+    /* border-bottom-right-radius :25px ; */
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3); /* right, bottom, blur, spread */
     display: flex;
     flex-direction: column;
