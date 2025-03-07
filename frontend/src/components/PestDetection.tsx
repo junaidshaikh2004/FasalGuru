@@ -1,16 +1,22 @@
 import { useState, useRef } from 'react';
 import axios from 'axios';
+import { FlipWords } from "./ui/flip-words";
 
 function PestDetection() {
     const [selectedFile, setSelectedFile] = useState(null);
+    const [preview, setPreview] = useState(null);
     const [result, setResult] = useState('');
     const [showCamera, setShowCamera] = useState(false);
 
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
 
+    const words = ["Detection", "Prevention"];
+
     const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
+        const file = event.target.files[0];
+        setSelectedFile(file);
+        setPreview(URL.createObjectURL(file));  // Show preview immediately
     };
 
     const handleCapture = async () => {
@@ -41,6 +47,7 @@ function PestDetection() {
         canvas.toBlob((blob) => {
             const file = new File([blob], 'captured_image.png', { type: 'image/png' });
             setSelectedFile(file);
+            setPreview(URL.createObjectURL(file)); // Show captured preview
             setShowCamera(false);
         }, 'image/png');
 
@@ -71,36 +78,93 @@ function PestDetection() {
         }
     };
 
+    const clearImage = () => {
+        setSelectedFile(null);
+        setPreview(null);
+        setResult('');
+    };
+
     return (
-        <div style={{ padding: '20px', fontFamily: 'Arial' }}>
-            <h2>Pest Detection</h2>
-
-            <input type="file" accept="image/*" onChange={handleFileChange} />
-
-            <div style={{ margin: '10px 0' }}>
-                <button onClick={handleCapture}>Open Camera & Capture Image</button>
+        <div className='p-10 mx-10 my-2 flex gap-10 items-center'>
+            {/* Preview Box */}
+            <div className="mt-4 w-[30vw] h-[70vh] border rounded-2xl flex items-center justify-center bg-gray-100">
+                {preview ? (
+                    <img src={preview} alt="Preview" className="max-w-full max-h-full object-contain" />
+                ) : (
+                    <span className="text-gray-500">No image selected</span>
+                )}
             </div>
 
-            {showCamera && (
-                <div>
-                    <video ref={videoRef} autoPlay style={{ width: '100%', maxWidth: '400px' }}></video>
-                    <button onClick={captureImage}>Capture Image</button>
+            {/* Right Section */}
+            <div className='w-[50vw] h-[70vh]'>
+                <div className="justify-center items-center">
+                    <div className="text-7xl mx-2 text-neutral-600 dark:text-black font-bold">
+                        Pest
+                        <FlipWords words={words} /> <br />
+                    </div>
                 </div>
-            )}
 
-            <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
+                <div className='p-4 mt-3'>
+                    {/* File Upload */}
+                    <label className="custom-upload-button bg-green-500 text-white px-4 py-2 rounded cursor-pointer">
+                        Select Image
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                            style={{ display: 'none' }}
+                        />
+                    </label>
 
-            <div style={{ marginTop: '10px' }}>
-                <button onClick={handleUpload}>Upload and Analyze</button>
+                    {/* Open Camera Button */}
+                    <button className="ml-2 bg-blue-500 text-white px-4 py-2 rounded" onClick={handleCapture}>
+                        Open Camera & Capture Image
+                    </button>
+
+                    {/* Clear Image Button */}
+                    <button 
+                        className="ml-2 bg-red-500 text-white px-4 py-2 rounded" 
+                        onClick={clearImage} 
+                        disabled={!preview} // disable if no image
+                    >
+                        Clear Image
+                    </button>
+
+                    {/* Camera Capture UI */}
+                    {showCamera && (
+                        <div className="mt-4">
+                            <video ref={videoRef} autoPlay className="w-full max-w-md border rounded"></video>
+                            <button
+                                className="mt-2 bg-purple-500 text-white px-4 py-2 rounded"
+                                onClick={captureImage}
+                            >
+                                Capture Image
+                            </button>
+                        </div>
+                    )}
+
+                    <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
+
+                    {/* Upload Button */}
+                    <div className="mt-4">
+                        <button className="bg-orange-500 text-white px-4 py-2 rounded" onClick={handleUpload}>
+                            Upload and Analyze
+                        </button>
+                    </div>
+
+                    {/* Analysis Result */}
+                    {result && (
+                        <div className="mt-4 p-2 bg-green-100 border border-green-500 rounded">
+                            <strong>Result:</strong>
+                            <pre className="whitespace-pre-line">{result}</pre>
+                        </div>
+                    )}
+                </div>
             </div>
-
-            {result && (
-                <div style={{ marginTop: '20px', whiteSpace: 'pre-line', fontWeight: 'bold' }}>
-                    {result}
-                </div>
-            )}
         </div>
     );
 }
 
 export default PestDetection;
+
+
