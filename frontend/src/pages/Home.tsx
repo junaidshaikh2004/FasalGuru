@@ -73,7 +73,6 @@ function Home() {
 
     const mainWeather = forecast?.weather?.[0]?.main ?? 'N/A';
     const description = forecast?.weather?.[0]?.description ?? 'N/A';
-    // const weatherIcon = forecast?.weather?.[0]?.icon;
     const tempreature = forecast?.main?.temp
     const feels_linke = forecast?.main?.feels_like
     const humidity = forecast?.main?.humidity
