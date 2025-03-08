@@ -38,10 +38,3 @@ class FertilizerRecommender:
 
         return fertMap[fertilizer]
 
-# data = {
-#     "Temparature": 45,  
-#     "Humidity": 20,
-#     "Moisture": 38,
-#     "Soil Type": "Loamy",
-#     "Crop Type": "Cotton"
-# }
