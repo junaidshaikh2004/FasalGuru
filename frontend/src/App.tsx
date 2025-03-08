@@ -6,6 +6,7 @@ import PestDetection from './components/PestDetection';
 import Wholesale from './components/Wholesale';
 import FertilizerRecommendation from './components/FertilizerRecommendation';
 import SmartIrigstion from './components/SmartIrigstion';
+import MarketTrends from './components/MarketTresnds';
 // import Settings from './pages/Settings';
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
                 <Route path="/wholesale-price" element={<Wholesale />} />
                 <Route path="/fertilizers" element={<FertilizerRecommendation />} />
                 <Route path="/smart-irigation" element={<SmartIrigstion />} />
+                <Route path="/market-trends" element={<MarketTrends />} />
+
                 {/* <Route path="/pest-detection" element={<PestDetection />} /> */}
 
 
