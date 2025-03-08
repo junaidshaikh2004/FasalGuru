@@ -31,6 +31,12 @@ function Features() {
       img: "src/assets/irigation.jpg",
       navigateTo: () => navigate("/smart-irigation"),
     },
+    {
+      title: "Market Trends",
+      para: "An AI-powered Market Trends Analysis System on your website can help farmers by providing real-time insights into crop prices, and trends",
+      img: "src/assets/market.jpg",
+      navigateTo: () => navigate("/market-trends"),
+    },
   ];
 
   return (
