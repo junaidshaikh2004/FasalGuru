@@ -7,7 +7,6 @@ import TrendsCard from './TrendCard'
 import React from "react";
 import ColourfulText from "@/components/ui/colourful-text";
 import { motion } from "motion/react"
-import { BackgroundGradient } from "../components/ui/background-gradient";
 
 
 export default function MarketTrends() {
@@ -38,13 +37,11 @@ export default function MarketTrends() {
     }
 
     return (
-        <div className='marketTrends__main'>
+        <div className=''>
             <h1 className='m-10 text-8xl text-green-500 font-bold ' >Market Trends</h1>
 
-            <div className="marketTrends">
+            <div className="p-5 w-[100%] flex gap-10 flex-wrap items-center justify-center  ">
                 {marketTrends.map((trend, index) => (
-                    <BackgroundGradient className='flex justify-between'>
-                   
                     <TrendsCard
                         key={index}
                         state={trend.state}
@@ -53,7 +50,7 @@ export default function MarketTrends() {
                         minPrice={trend.min_price}
                         maxPrice={trend.max_price}
                         modalPrice={trend.modal_price}
-                    /> </BackgroundGradient>
+                    />
                 ))}
             </div>
 
