@@ -34,19 +34,15 @@ function Features() {
   ];
 
   return (
-    <div className="feature">
+    <div className=" bg-gray-950">
       <div className="flex items-center justify-center gap-2">
-        <h1 className="text-center text-4xl font-bold">
-          Enhance Your Crop Health with These Powerful Features{" "}
+        <h1 className="text-white absolute top-33 text-center text-4xl font-bold">
+          Enhance Your Crop Health with These Powerful Features
         </h1>
-        <img
-          src="src/assets/leaf.jpg"
-          alt=""
-          className="w-20 h-20 items-center"
-        />
+        
       </div>
 
-      <div className="swipe  flex flex-wrap p-10 gap-18 ml-10">
+      <div className="flex flex-wrap p-10 gap-18 ml-10">
         {featuresData.map((feature, index) => (
           <div className="f_card" key={index}>
             <ThreeDCardDemo

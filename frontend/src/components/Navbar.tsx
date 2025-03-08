@@ -10,11 +10,11 @@ function Navbar() {
       : "cursor-pointer hover:text-green-600";
 
   return (
-    <div className="flex justify-between items-center">
-      <div className="mt-5 ml-2">
+    <div className="flex justify-between items-center bg-gray-950 ">
+      <div className="mt-11 ml-2 border-1 border-green-400 rounded-xl overflow-hidden ">
         <img className="h-20 w-70 " src="src/assets/logo.png" alt="Logo" />
       </div>
-      <div className="flex justify-between gap-5 text-3xl font-medium mr-7">
+      <div className="text-white flex justify-between gap-5 text-3xl font-medium mr-7">
         <NavLink to="/" className={linkClasses}>
           Home
         </NavLink>
