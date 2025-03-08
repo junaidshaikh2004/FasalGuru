@@ -114,7 +114,7 @@ def predict_fertilizer(data: FertilizerInput):
 def predict_water_requirement(crop_type: str, soil_type: str, rainfall: float):
     """Endpoint to predict water requirement."""
     try:
-        f"Real time Data{ global_weather_data["temperature"]}, {global_weather_data["humidity"]}"
+        print(f"Real time Data{ global_weather_data["temperature"]}, {global_weather_data["humidity"]}")
         result = water_predictor.predict(crop_type, soil_type,   global_weather_data["temperature"], global_weather_data["humidity"], 25, rainfall)
         return result
     except Exception as e:

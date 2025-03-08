@@ -121,7 +121,8 @@ function PestDetection() {
 
 
     return (
-        <div className='p-10 mx-10 my-2 flex gap-10 items-center'>
+        <div className='bg-gray-950' >
+        <div className='p-10 mx-10  flex gap-10 items-center '>
             {/* Preview Box */}
             <div className="mt-4 w-[30vw] h-[70vh] border rounded-2xl flex items-center justify-center bg-gray-100">
                 {preview ? (
@@ -132,12 +133,13 @@ function PestDetection() {
             </div>
 
             {/* Right Section */}
-            <div className='w-[50vw] h-[70vh]'>
+            <div className='w-[50vw] h-[70vh] '>
                 <div className="justify-center items-center">
-                    <div className="text-7xl mx-2 text-neutral-600 dark:text-black font-bold">
+                    <div className="text-7xl mx-2 text-white dark:text-white font-bold">
                         Pest
                         <FlipWords words={words} /> <br />
                     </div>
+                    <div className='mx-3 h-[2px] w-[34vw] bg-slate-500 mt-2 ' ></div>
                 </div>
 
                 <div className='p-4 mt-3'>
@@ -197,6 +199,7 @@ function PestDetection() {
                     )}
                 </div>
             </div>
+        </div>
         </div>
     );
 }
