@@ -21,6 +21,9 @@ function Navbar() {
         <NavLink to="/features" className={linkClasses}>
           Features
         </NavLink>
+        <NavLink to="/chatbot" className={linkClasses}>
+          Chatbot
+        </NavLink>
         {/* <NavLink to="/settings" className={linkClasses}>Settings</NavLink> */}
         <div className="bg-white rounded-xl p-2 items-center border-1">
           <GoogleTranslateWidget />

@@ -7,6 +7,7 @@ import Wholesale from './components/Wholesale';
 import FertilizerRecommendation from './components/FertilizerRecommendation';
 import SmartIrigstion from './components/SmartIrigstion';
 import MarketTrends from './components/MarketTresnds';
+import Chatbot from './pages/Chatbot';
 // import Settings from './pages/Settings';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/features" element={<Features />} />
+                <Route path="/chatbot" element={<Chatbot />} />
                 <Route path="/pest-detection" element={<PestDetection />} />
                 <Route path="/wholesale-price" element={<Wholesale />} />
                 <Route path="/fertilizers" element={<FertilizerRecommendation />} />
