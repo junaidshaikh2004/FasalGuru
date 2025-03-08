@@ -1,8 +1,12 @@
-import React from 'react'
+"use client";
+// import React from 'react'
 import axios from 'axios'
 // import TrendsCard from '../styles/TrendsCard.css'
 import '../styles/TrendsCard.css'
 import TrendsCard from './TrendCard'
+import React from "react";
+import ColourfulText from "@/components/ui/colourful-text";
+import { motion } from "motion/react"
 
 export default function MarketTrends() {
     const [marketTrends, setMarketTrends] = React.useState([])
@@ -33,7 +37,7 @@ export default function MarketTrends() {
 
     return (
         <div className='marketTrends__main'>
-            <h1 className='text-2xl text-green-500 font-bold ' >Market Trends</h1>
+            <h1 className='m-10 text-8xl text-green-500 font-bold ' >Market Trends</h1>
 
             <div className="marketTrends">
                 {marketTrends.map((trend, index) => (
