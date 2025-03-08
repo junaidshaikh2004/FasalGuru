@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import BlurText from "./BlurText";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect"
+ 
+const words = `Fertilizer Recommendation`;
 const soilTypes = ["Sandy", "Loamy", "Black", "Red", "Clayey"];
 const cropTypes = [
   "Maize",
@@ -117,16 +120,14 @@ function FertilizerRecommendation() {
   };
 
   return (
-    <div className="flex">
-      <div>
-        <h2 className="text-6xl font-bold text-balck m-4">
-          Fertilizer Recommendation
-        </h2>
-        <div className="flex flex-col gap-4 m-5 w-[25vw] ">
+    <div className="flex p-5 items-center justify-center ">
+      <div className="flex flex-col rounded-3xl items-center justify-center  " >
+      <TextGenerateEffect words={words} />
+        <div className="flex flex-col gap-4 m-5 w-[25vw] items-center ">
           <select
             value={soil}
             onChange={(e) => setSoil(e.target.value)}
-            className="p-2 text-2xl border rounded bg-white text-green-800"
+            className="p-2 text-2xl border rounded bg-white text-green-800 w-[20vw] items-center text-center "
           >
             <option value="">Select Soil Type</option>
             {soilTypes.map((type) => (
@@ -139,7 +140,7 @@ function FertilizerRecommendation() {
           <select
             value={crop}
             onChange={(e) => setCrop(e.target.value)}
-            className="p-2 text-2xl  border rounded bg-white text-green-800"
+            className="p-2 text-2xl  border rounded bg-white w-[20vw] text-center text-green-800"
           >
             <option value="">Select Crop Type</option>
             {cropTypes.map((type) => (
@@ -159,8 +160,6 @@ function FertilizerRecommendation() {
         </button>
 
         {error && <p className="text-red-600 mt-3">{error}</p>}
-      </div>
-      <div>
         {fertilizer && (
           <div className="mt-6 p-5 border rounded-lg shadow-md w-96 bg-white text-center">
             <h3 className="text-xl font-bold mb-2">Recommended Fertilizer:</h3>
