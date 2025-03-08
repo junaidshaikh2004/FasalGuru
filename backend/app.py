@@ -26,6 +26,11 @@ app.add_middleware(
 class InputData(BaseModel):
     input_values: List[float]
 
+class IrrigationInput(BaseModel):
+    crop_type: str
+    soil_type: str
+    rainfall: float
+    
 base_dir = os.path.dirname(os.path.abspath(__file__))  
 
 pest_detector = PestDetectionModel(os.path.join(base_dir, "pestDetection/resnet_finetuned.pth"))
@@ -109,16 +114,34 @@ def predict_fertilizer(data: FertilizerInput):
         return {"recommended_fertilizer": recommended_fertilizer}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
 @app.post("/irrigation")
-def predict_water_requirement(crop_type: str, soil_type: str, rainfall: float):
-    """Endpoint to predict water requirement."""
+def predict_water_requirement(data: IrrigationInput):
     try:
-        print(f"Real time Data{ global_weather_data["temperature"]}, {global_weather_data["humidity"]}")
-        result = water_predictor.predict(crop_type, soil_type,   global_weather_data["temperature"], global_weather_data["humidity"], 25, rainfall)
-        return result
+        print(f"Real-time Data: {global_weather_data['temperature']}, {global_weather_data['humidity']}")
+        
+        result = water_predictor.predict(
+            data.crop_type, 
+            data.soil_type,   
+            global_weather_data["temperature"], 
+            global_weather_data["humidity"], 
+            25, 
+            data.rainfall
+        )
+
+        print(f"Water Prediction Model Output: {result}")  # Debugging line
+
+        # Extract the actual float value from the dictionary
+        if isinstance(result, dict) and "water_requirement" in result:
+            result = round(float(result["water_requirement"]),2)  # Ensure it's a float
+
+        # Ensure result is a valid number
+        if not isinstance(result, (int, float)):
+            raise ValueError(f"Unexpected response format: {result}")
+
+        return {"water_required": result}
     except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
     
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
