@@ -86,27 +86,26 @@ function Home() {
     }
   }, [latitude, longitude]);
 
-  useEffect(() => {
-    if (forecast) {
-      const temperature = forecast?.main?.temp;
-      const humidity = forecast?.main?.humidity;
-      const weatherMain = forecast?.weather?.[0]?.main;
+  //   useEffect(() => {
+  //     if (forecast) {
+  //         const temperature = forecast?.main?.temp;
+  //         const humidity = forecast?.main?.humidity;
+  //         const weatherMain = forecast?.weather?.[0]?.main;
 
-      // Immediately send to backend
-      axios
-        .post("http://127.0.0.1:8000/analyze_image", {
-          temperature,
-          humidity,
-          weather_main: weatherMain,
-        })
-        .then((response) => {
-          console.log("Weather data sent to backend:", response.data);
-        })
-        .catch((error) => {
-          console.error("Error sending weather data:", error);
-        });
-    }
-  }, [forecast]);
+  //         // Immediately send to backend
+  //         axios.post('http://127.0.0.1:8000/analyze_image', {
+  //             temperature,
+  //             humidity,
+  //             weather_main: weatherMain,
+  //         })
+  //         .then(response => {
+  //             console.log('Weather data sent to backend:', response.data);
+  //         })
+  //         .catch(error => {
+  //             console.error('Error sending weather data:', error);
+  //         });
+  //     }
+  // }, [forecast]);
 
   const mainWeather = forecast?.weather?.[0]?.main ?? "N/A";
   const description = forecast?.weather?.[0]?.description ?? "N/A";

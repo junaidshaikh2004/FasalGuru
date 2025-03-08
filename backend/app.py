@@ -11,6 +11,7 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from fertilizerRecommender.fertilizer import FertilizerRecommender
+from irrigation.irrigation_advisor import WaterRequirementPredictor
 
 app = FastAPI()
 
@@ -32,26 +33,48 @@ disease_prevention = DiseasePrevention()
 weather_fetcher = WeatherFetcher()
 food_price_predictor = FoodPricePredictor(os.path.join(base_dir,"foodPrice/model.jbl.lzma"))
 fertilizer = FertilizerRecommender()
+water_predictor = WaterRequirementPredictor()
+
 os.makedirs("temp", exist_ok=True)
+from fastapi import FastAPI, File, UploadFile, HTTPException, Form
+from typing import Optional
+import shutil
+import os
+
+global_weather_data = {"temperature": None, "humidity": None, "weather_main": None}
+
 
 @app.post("/analyze_image")
-async def analyze_image(image: UploadFile = File(...)):
-    """Detects pest/disease from the image, fetches weather data, and returns prevention measures."""
+async def analyze_image(
+    image: UploadFile = File(...),
+    temperature: float = Form(...),
+    humidity: float = Form(...),
+    weather_main: str = Form(...)
+):
+    """Detects pest/disease from the image and uses provided weather data for prevention measures."""
+    global global_weather_data
+    global_weather_data["temperature"] = temperature
+    global_weather_data["humidity"] = humidity
+    global_weather_data["weather_main"] = weather_main
     image_path = f"temp/{image.filename}"
     with open(image_path, "wb") as buffer:
         shutil.copyfileobj(image.file, buffer)
     
     try:
         predicted_class = pest_detector.predict(image_path)
-        weather_data = weather_fetcher.get_weather()
+        print(temperature)
+        print(humidity)
+        print(weather_main)
         response = disease_prevention.get_prevention_plan(
-            predicted_class, weather_data["temperature"], weather_data["humidity"], weather_data["weather"]
+            predicted_class, temperature, humidity, weather_main
         )
+
         os.remove(image_path)
         return {"predicted_disease": predicted_class, "prevention_measures": response}
     except Exception as e:
         os.remove(image_path)
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.post("/predict_price")
 def predict_price(data: InputData):  # Accept form input properly
@@ -86,6 +109,16 @@ def predict_fertilizer(data: FertilizerInput):
         return {"recommended_fertilizer": recommended_fertilizer}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/irrigation")
+def predict_water_requirement(crop_type: str, soil_type: str, rainfall: float):
+    """Endpoint to predict water requirement."""
+    try:
+        print(f"Real time Data{ global_weather_data["temperature"]}, {global_weather_data["humidity"]}")
+        result = water_predictor.predict(crop_type, soil_type,   global_weather_data["temperature"], global_weather_data["humidity"], 25, rainfall)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
     
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
