@@ -13,12 +13,12 @@ function Features() {
       img: "src/assets/pest2.jpg",
       navigateTo: () => navigate("/pest-detection"),
     },
-    {
-      title: "Wholesale Price Index ",
-      para: "AI-powered WPI Prediction on our website forecasts future wholesale prices using historical data.",
-      img: "src/assets/wholesale.jpg",
-      navigateTo: () => navigate("/wholesale-price"),
-    },
+    // {
+    //   title: "Wholesale Price Index ",
+    //   para: "AI-powered WPI Prediction on our website forecasts future wholesale prices using historical data.",
+    //   img: "src/assets/wholesale.jpg",
+    //   navigateTo: () => navigate("/wholesale-price"),
+    // },
     {
       title: "Fertilizer Recommendation",
       para: "AI-powered Fertilizer Recommendation on our website suggests the best fertilizers based on soil data and crop type.",
